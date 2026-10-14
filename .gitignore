@@ -1,7 +1,8 @@
-# Arquivos de dados reais
-dados/*.csv
+# Arquivos de dados confidenciais
+dados/**/*.csv
 
-# Arquivos gerados
+# Arquivos CSV gerados
+output/**/*.csv
 output/*.csv
 
 # Ambiente virtual

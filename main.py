@@ -26,32 +26,53 @@ def classificar_orcamentos(df):
     """Classifica os registros de acordo com o ano."""
     df["Ano"] = df["Data de Cad."].dt.year
 
-    df["Grupo"] = df["Ano"].apply(
-        lambda ano: (
-            f"Orçamentos {ano}"
-            if ano >= 2020
-            else "Orçamentos abaixo 2020"
-        )
-    )
+    def definir_grupo(ano):
+        if ano in [2025, 2026]:
+            return "Orçamentos 2025-2026"
+        return f"Orçamentos {ano}"
+
+    df["Grupo"] = df["Ano"].apply(definir_grupo)
 
     return df
 
 
 def gerar_arquivos(df):
-    """Gera um CSV para cada grupo de orçamento."""
+    """Gera os arquivos CSV separados por ano."""
     os.makedirs(PASTA_SAIDA, exist_ok=True)
 
     for grupo, dados in df.groupby("Grupo"):
-        nome_arquivo = f"{PASTA_SAIDA}/{grupo}.csv"
+        
+        # Divide 2025 e 2026 em duas partes
+        if grupo == "Orçamentos 2025-2026":
+            metade = len(dados) // 2
 
-        dados = dados.drop(columns=["Ano", "Grupo"])
+            parte_1 = dados.iloc[:metade]
+            parte_2 = dados.iloc[metade:]
 
-        dados.to_csv(
-            nome_arquivo,
-            index=False,
-            sep=";",
-            encoding="latin1"
-        )
+            partes = {
+                "Orçamentos 2025-2026 Parte 1": parte_1,
+                "Orçamentos 2025-2026 Parte 2": parte_2
+            }
+
+            for nome, parte in partes.items():
+                parte = parte.drop(columns=["Ano", "Grupo"])
+
+                parte.to_csv(
+                    f"{PASTA_SAIDA}/{nome}.csv",
+                    index=False,
+                    sep=";",
+                    encoding="latin1"
+                )
+
+        else:
+            dados = dados.drop(columns=["Ano", "Grupo"])
+
+            dados.to_csv(
+                f"{PASTA_SAIDA}/{grupo}.csv",
+                index=False,
+                sep=";",
+                encoding="latin1"
+            )
 
 
 def main():

@@ -1,35 +1,42 @@
-# Separação de Orçamentos por Ano
+# Separação de Arquivos CSV por Ano
 
-Script em Python desenvolvido para separar um arquivo de orçamentos em diferentes arquivos CSV, de acordo com o ano da data de cadastro.
+Script desenvolvido em Python para automatizar a organização de registros em arquivos CSV, utilizando a data de cadastro como critério de separação.
 
-## Funcionamento
+## Funcionalidades
 
-O programa:
+O projeto possui duas rotinas de processamento:
 
-1. Lê o arquivo CSV de entrada.
-2. Converte a coluna `Data de Cad.` para o formato de data.
-3. Identifica o ano de cada cadastro.
-4. Separa os registros por ano.
-5. Agrupa os registros anteriores a 2020 em um único arquivo.
-6. Gera os arquivos separados na pasta `output`.
+**1. Separação de Orçamentos (`main.py`)**
+- Organiza os registros de orçamentos por ano.
+- Permite agrupar períodos específicos e dividir arquivos em partes.
+- Exporta os resultados em arquivos CSV.
 
-## Arquivos gerados
-
-O programa gera os seguintes arquivos:
-
-- `Orçamentos 2026.csv`
-- `Orçamentos 2025.csv`
-- `Orçamentos 2024.csv`
-- `Orçamentos 2023.csv`
-- `Orçamentos 2022.csv`
-- `Orçamentos 2021.csv`
-- `Orçamentos 2020.csv`
-- `Orçamentos abaixo 2020.csv`
+**2. Separação de Newsletter (`separar_newsletter.py`)**
+- Organiza os cadastros de newsletter por ano.
+- Agrupa os registros de 2012, 2013 e 2014 em um único arquivo.
+- Gera arquivos individuais para os anos de 2015 em diante.
+- Suporta diferentes formatos de data.
+- Verifica a quantidade de registros exportados.
 
 ## Tecnologias
 
 - Python
 - Pandas
+
+## Estrutura do projeto
+
+```text
+arquivos-por-data/
+├── dados/
+│   └── newsletter/
+├── output/
+│   └── newsletter/
+├── main.py
+├── separar_newsletter.py
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
 ## Como executar
 
@@ -37,3 +44,22 @@ Instale as dependências:
 
 ```bash
 python -m pip install -r requirements.txt
+```
+
+Para processar os orçamentos:
+
+```bash
+python main.py
+```
+
+Para processar os cadastros de newsletter:
+
+```bash
+python separar_newsletter.py
+```
+
+Os arquivos de entrada devem estar nos caminhos definidos nos respectivos scripts.
+
+## Privacidade dos dados
+
+Os arquivos CSV utilizados e gerados durante o processamento não são disponibilizados neste repositório. O `.gitignore` impede que esses dados sejam incluídos no versionamento.
